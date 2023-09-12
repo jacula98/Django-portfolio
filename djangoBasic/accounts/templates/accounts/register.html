@@ -1,0 +1,11 @@
+{% extends 'accounts/main.html' %}
+
+{% block content %}
+
+<form class='register-form' method="POST" action="">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit" name="Create user">
+</form>
+    
+{% endblock content %}

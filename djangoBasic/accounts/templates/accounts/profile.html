@@ -1,0 +1,90 @@
+{% extends 'accounts/main.html' %}
+{% load static %}
+
+{% block header %}
+
+{% include 'accounts/header.html' %}
+
+{% endblock %}
+
+{% block content %}
+
+<p>This profile belong to {{ user.first_name }}</p>
+<p>This profile is seen by {{ request.user.first_name}}</p>
+
+<div class="grid">
+    {% if request.user.is_authenticated and request.user == user %}
+    <div class="col">
+        <div class="profile-card">
+            <div>Add new profile card</div>
+            <br>
+            <a class="create-card-plus" href="{% url 'createcard' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" height="3em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#1ec832}</style><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
+            </a>
+        </div>
+    </div>
+
+    {% endif %}
+    {% if user_cards %}
+        {% for card in user_cards %}
+            <div class="col">
+                <div class="user-card">
+                    <div class="top">
+                        {% if card.card_type == 'looking_for_worker' %}
+                            <div class="top-text">{{ card.job_name|capfirst }}</div>
+                        {% else %}
+                            <div class="profile-image"></div>
+                            <div class="name-age space">
+                                <div class="top-text">{{ user.first_name|capfirst }}</div>
+                                <div>Age: </div>
+                            </div>
+                        {% endif %}
+                        
+                        <a href="{% url 'confirm_delete_card' card_id=card.id%}">
+                            <div class="trash-icon">&#128465;</div>
+                        </a>
+                        
+                    </div>
+                    <div class="middle">
+                      <fieldset class="fieldset-skills">
+                        <legend>Skills</legend>
+                        <div class="pill-container skill-container">
+                            {% for skill in card.skills_list %}
+                                <div class="pill skill">{{ skill }}</div>   
+                            {% endfor %}
+                        </div>
+                      </fieldset>
+                      
+                      <fieldset class="fieldset-experiences">
+                        <legend>Experiences</legend>
+                        <div class="pill-container experience-container">
+                            {% for experience in card.experiences_list %}
+                                <div class="pill experience">{{ experience }}</div>
+                            {% endfor %}
+                        </div>
+                      </fieldset>
+                        
+                    </div>
+                    <div class="bottom">
+                        <div class="lupe-icon">&#128269;</div>
+                        <div class="rating-icon">4.4 &#9733;</div>
+                        <a href="{% url 'home' %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#1ec832}</style><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
+                        </a>
+                    </div>
+                  </div>
+            </div>
+
+        {% endfor %}
+    {% endif %}
+    
+    
+
+    
+</div>
+
+<script src="{% static 'js/profile_script.js' %}"></script>
+
+
+{% endblock content %}
+

@@ -1,0 +1,43 @@
+<header>
+    <p class="logo"><a href="{% url 'home' %}">Sidejobs</a></p>
+    <form class="search-bar">
+        <input id="search" type="search" placeholder="Szukaj..." autofocus required />
+        <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>    
+    </form>
+    <ul class="navigation">
+    </ul>
+    {% if request.user.is_authenticated %}
+        <div class="menu">
+            <div class="user-profile-button">
+                <div class="toggle-btn">
+                    <span>{{ request.user.first_name }}</span>
+                    <i class="fa-solid fa-light fa-angle-down fa-lg"></i>
+                </div>
+            </div>
+            <div class="dropdown_menu">
+                <li><a href="{% url 'profile' pk=request.user.id %}">Profile</a></li>
+                <li><a href="{% url 'user_subscriptions' %}">Subscribed</a></li>
+                <li><a href="{% url 'home' %}">Messages</a></li>
+                <li><a href="{% url 'home' %}">Settings</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </div>
+        </div>  
+    {% else %}
+        <div class="user-profile-button"><a href="{% url 'login' %}">Login</a></div>
+    {% endif %}
+
+    <script>
+        const toggleBtn = document.querySelector('.user-profile-button')
+        const toggleBtnIcon = document.querySelector('.toggle-btn i')
+        const dropDownMenu = document.querySelector('.dropdown_menu')
+
+        toggleBtn.onclick = function () {
+            dropDownMenu.classList.toggle('open')
+            const isOpen = dropDownMenu.classList.contains('open')
+
+            toggleBtnIcon.classList = isOpen
+                ? 'fa-solid fa-light fa-angle-up fa-lg'
+                : 'fa-solid fa-light fa-angle-down fa-lg'
+        }
+    </script>
+</header>

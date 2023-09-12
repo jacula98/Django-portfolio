@@ -1,0 +1,23 @@
+{% extends 'accounts/main.html' %}
+{% load static %}
+
+{% block header %}
+
+{% include 'accounts/header.html' %}
+
+{% endblock %}
+
+{% block content %}
+
+
+
+<form class="create-card-form" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <div class="button-container">
+    <button class="create-card-button" type="submit">Utwórz kartę</button>
+    </div>
+</form>
+
+{% endblock content %}
